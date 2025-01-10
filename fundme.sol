@@ -7,8 +7,14 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interf
 
 contract FundMe{
 
+  address owner;
+
    address[] public funders;
    mapping(address=> uint256 amountFunded) public addresstoamountfunded;
+   constructor(){
+      owner = msg.sender;
+
+   }
  function fund() public payable  { 
 
    funders.push(msg.sender);
@@ -31,13 +37,25 @@ contract FundMe{
     return uint256(price)* 1e10;
 
  }
- function withdraw() public{
+ function withdraw() public onlyOwner  {
+ 
+   
 
   for(uint i = 0; i < funders.length; i++){
 
    address funder = funders[i];
    addresstoamountfunded[funder] = 0;
   }
+
+  funders = new address[](0);
+  (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
+  require(callSuccess, "Call Failed");
+  
  }
+
+ modifier onlyOwner(){
+   require(msg.sender == owner, "Sender has to be owner");
+   _;
+ } 
 
 }
