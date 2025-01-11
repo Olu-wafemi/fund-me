@@ -7,7 +7,7 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interf
 
 contract FundMe{
 
-  address owner;
+  address public  immutable owner; //Immutable for saving gas for variable stord only once
 
    address[] public funders;
    mapping(address=> uint256 amountFunded) public addresstoamountfunded;
