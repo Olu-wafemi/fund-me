@@ -4,7 +4,7 @@
 pragma solidity ^0.8.18;
 
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
-
+error NotOwner();
 contract FundMe{
 
   address public  immutable owner; //Immutable for saving gas for variable stord only once
@@ -54,7 +54,10 @@ contract FundMe{
  }
 
  modifier onlyOwner(){
-   require(msg.sender == owner, "Sender has to be owner");
+   if(msg.sender != owner){
+      revert NotOwner(); //custom errors, gas efficient
+   }
+  // require(msg.sender == owner, "Sender has to be owner");
    _;
  } 
 
