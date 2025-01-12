@@ -60,6 +60,8 @@ contract FundMe{
   // require(msg.sender == owner, "Sender has to be owner");
    _;
  } 
+
+ //used when a tx is sent without existing
  receive() external payable { 
    fund();
  }
