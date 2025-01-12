@@ -63,7 +63,7 @@ contract FundMe{
  receive() external payable { 
    fund();
  }
-
+//fallback, used when a non existing function is used alongside an argument
  fallback() external payable {
    fund();
   }
